@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         MWITools
+// @name         MWITools with Realtime Market
 // @namespace    http://tampermonkey.net/
 // @version      21.9
 // @description  Tools for MilkyWayIdle. Shows total action time. Shows market prices. Shows action number quick inputs. Shows how many actions are needed to reach certain skill level. Shows skill exp percentages. Shows total networth. Shows combat summary. Shows combat maps index. Shows item level on item icons. Shows how many ability books are needed to reach certain level. Shows market equipment filters.
@@ -3283,6 +3283,7 @@
     async function fetchMarketJSON(forceFetch = false) {
         // console.log(GM_xmlhttpRequest); // Tampermonkey
         // console.log(GM.xmlHttpRequest); // Tampermonkey promise based, Greasemonkey 4.0+
+        if(mwi?.inited) return mwi.marketJson;
 
         // Broswer does not support fetch
         const sendRequest =
