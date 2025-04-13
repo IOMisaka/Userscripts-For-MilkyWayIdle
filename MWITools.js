@@ -3283,7 +3283,7 @@
     async function fetchMarketJSON(forceFetch = false) {
         // console.log(GM_xmlhttpRequest); // Tampermonkey
         // console.log(GM.xmlHttpRequest); // Tampermonkey promise based, Greasemonkey 4.0+
-        if(mwi?.inited) return mwi.marketJson;
+        if(mwi?.MWICoreInitialized) return mwi.marketJson;
 
         // Broswer does not support fetch
         const sendRequest =
