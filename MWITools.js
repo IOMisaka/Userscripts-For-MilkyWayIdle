@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MWITools with Realtime Market
 // @namespace    http://tampermonkey.net/
-// @version      21.9
+// @version      22.0
 // @description  Tools for MilkyWayIdle. Shows total action time. Shows market prices. Shows action number quick inputs. Shows how many actions are needed to reach certain skill level. Shows skill exp percentages. Shows total networth. Shows combat summary. Shows combat maps index. Shows item level on item icons. Shows how many ability books are needed to reach certain level. Shows market equipment filters.
 // @author       bot7420
 // @license      CC-BY-NC-SA-4.0
@@ -3201,6 +3201,7 @@
             const baseTimePerActionSec = initData_actionDetailMap[actionHrid].baseTimeCost / 1000000000;
             const toolPercent = getToolsSpeedBuffByActionHrid(actionHrid);
             const actualTimePerActionSec = baseTimePerActionSec / (1 + toolPercent / 100);
+
             let actionPerHour = 3600 / actualTimePerActionSec;
 
             // 每小时产品数
@@ -3248,17 +3249,19 @@
 
             appendHTMLStr += `<div style="color: ${SCRIPT_COLOR_TOOLTIP}; font-size: 10px;">${
                 isZH
-                    ? "生产利润(卖单价进、买单价出；不包括加工茶、社区增益、稀有掉落、袋子饮食增益；刷新网页更新人物数据)："
-                    : "Production profit(Sell price in, bid price out; Not including processing tea, comm buffs, rare drops, pouch consumables buffs; Refresh page to update player data): "
+                    ? "生产利润(卖单价进、买单价出，包含销售税；不包括加工茶、社区增益、稀有掉落、袋子饮食增益；刷新网页更新人物数据)："
+                    : "Production profit(Sell price in, bid price out, including sales tax; Not including processing tea, comm buffs, rare drops, pouch consumables buffs; Refresh page to update player data): "
             }</div>`;
 
-            appendHTMLStr += `<div style="color: ${SCRIPT_COLOR_TOOLTIP}; font-size: 10px;">x${droprate} ${
-                isZH ? "基础掉率" : "base drop rate,"
-            } +${toolPercent}%${isZH ? "工具速度" : " tool speed,"} +${levelEffBuff}%${isZH ? "等级效率" : " level eff,"} +${houseEffBuff}%${
-                isZH ? "房子效率" : " house eff,"
-            } +${teaBuffs.efficiency}%${isZH ? "茶效率" : " tea eff,"} +${itemEffiBuff}%${isZH ? "装备效率" : " equipment eff,"} +${
-                teaBuffs.quantity
-            }%${isZH ? "茶额外数量" : " tea extra outcome,"} +${teaBuffs.lessResource}%${isZH ? "茶减少消耗" : " tea lower resource"}</div>`;
+            appendHTMLStr += `<div style="color: ${SCRIPT_COLOR_TOOLTIP}; font-size: 10px;">${baseTimePerActionSec.toFixed(2)}s ${
+                isZH ? "基础速度" : "base speed,"
+            } x${droprate} ${isZH ? "基础掉率" : "base drop rate,"} +${toolPercent}%${isZH ? "工具速度" : " tool speed,"} +${levelEffBuff}%${
+                isZH ? "等级效率" : " level eff,"
+            } +${houseEffBuff}%${isZH ? "房子效率" : " house eff,"} +${teaBuffs.efficiency}%${isZH ? "茶效率" : " tea eff,"} +${itemEffiBuff}%${
+                isZH ? "装备效率" : " equipment eff,"
+            } +${teaBuffs.quantity}%${isZH ? "茶额外数量" : " tea extra outcome,"} +${teaBuffs.lessResource}%${
+                isZH ? "茶减少消耗" : " tea lower resource"
+            }</div>`;
 
             appendHTMLStr += `<div style="color: ${SCRIPT_COLOR_TOOLTIP}; font-size: 10px;">${
                 isZH ? "每小时饮料消耗: " : "Drinks consumed per hour: "
@@ -6404,7 +6407,6 @@
                     const playerID = obj.profile.characterSkills[0].characterID;
                     const clientObj = JSON.parse(GM_getValue("init_client_data", ""));
                     const characterObj = JSON.parse(GM_getValue("init_character_data", ""));
-                    const battleObj = JSON.parse(GM_getValue("new_battle", ""));
 
                     if (playerID === characterObj.character.id) {
                         exportString = JSON.stringify(constructSelfPlayerExportObjFromInitCharacterData(characterObj, clientObj));
@@ -6418,10 +6420,13 @@
                         }
                         profile = profileList[0];
 
-                        const battlePlayerList = battleObj.players.filter((item) => item.character.id === playerID);
                         let battlePlayer = null;
-                        if (battlePlayerList.length === 1) {
-                            battlePlayer = battlePlayerList[0];
+                        if (GM_getValue("new_battle", "")) {
+                            const battleObj = JSON.parse(GM_getValue("new_battle", ""));
+                            const battlePlayerList = battleObj.players.filter((item) => item.character.id === playerID);
+                            if (battlePlayerList.length === 1) {
+                                battlePlayer = battlePlayerList[0];
+                            }
                         }
 
                         exportString = JSON.stringify(constructPlayerExportObjFromStoredProfile(profile, clientObj, battlePlayer));
