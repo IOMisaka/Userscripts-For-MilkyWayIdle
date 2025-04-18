@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MWITools with Realtime Market
 // @namespace    http://tampermonkey.net/
-// @version      22.0
+// @version      22.1
 // @description  Tools for MilkyWayIdle. Shows total action time. Shows market prices. Shows action number quick inputs. Shows how many actions are needed to reach certain skill level. Shows skill exp percentages. Shows total networth. Shows combat summary. Shows combat maps index. Shows item level on item icons. Shows how many ability books are needed to reach certain level. Shows market equipment filters.
 // @author       bot7420
 // @license      CC-BY-NC-SA-4.0
@@ -278,6 +278,7 @@
         "/items/chimerical_token": "\u5947\u5e7b\u4ee3\u5e01",
         "/items/sinister_token": "\u9634\u68ee\u4ee3\u5e01",
         "/items/enchanted_token": "\u79d8\u6cd5\u4ee3\u5e01",
+        "/items/pirate_token": "\u6d77\u76d7\u4ee3\u5e01",
         "/items/cowbell": "\u725b\u94c3",
         "/items/bag_of_10_cowbells": "\u725b\u94c3\u888b (10\u4e2a)",
         "/items/purples_gift": "\u5c0f\u7d2b\u725b\u7684\u793c\u7269",
@@ -293,6 +294,7 @@
         "/items/chimerical_chest": "\u5947\u5e7b\u5b9d\u7bb1",
         "/items/sinister_chest": "\u9634\u68ee\u5b9d\u7bb1",
         "/items/enchanted_chest": "\u79d8\u6cd5\u5b9d\u7bb1",
+        "/items/pirate_chest": "\u6d77\u76d7\u5b9d\u7bb1",
         "/items/blue_key_fragment": "\u84dd\u8272\u94a5\u5319\u788e\u7247",
         "/items/green_key_fragment": "\u7eff\u8272\u94a5\u5319\u788e\u7247",
         "/items/purple_key_fragment": "\u7d2b\u8272\u94a5\u5319\u788e\u7247",
@@ -308,6 +310,8 @@
         "/items/sinister_chest_key": "\u9634\u68ee\u5b9d\u7bb1\u94a5\u5319",
         "/items/enchanted_entry_key": "\u79d8\u6cd5\u94a5\u5319",
         "/items/enchanted_chest_key": "\u79d8\u6cd5\u5b9d\u7bb1\u94a5\u5319",
+        "/items/pirate_entry_key": "\u6d77\u76d7\u94a5\u5319",
+        "/items/pirate_chest_key": "\u6d77\u76d7\u5b9d\u7bb1\u94a5\u5319",
         "/items/donut": "\u751c\u751c\u5708",
         "/items/blueberry_donut": "\u84dd\u8393\u751c\u751c\u5708",
         "/items/blackberry_donut": "\u9ed1\u8393\u751c\u751c\u5708",
@@ -411,6 +415,8 @@
         "/items/smack": "\u91cd\u78be",
         "/items/sweep": "\u91cd\u626b",
         "/items/stunning_blow": "\u91cd\u9524",
+        "/items/fracturing_impact": "\u788e\u88c2\u51b2\u51fb",
+        "/items/shield_bash": "\u76fe\u51fb",
         "/items/quick_shot": "\u5feb\u901f\u5c04\u51fb",
         "/items/aqua_arrow": "\u6d41\u6c34\u7bad",
         "/items/flame_arrow": "\u70c8\u7130\u7bad",
@@ -426,6 +432,7 @@
         "/items/entangle": "\u7f20\u7ed5",
         "/items/toxic_pollen": "\u5267\u6bd2\u7c89\u5c18",
         "/items/natures_veil": "\u81ea\u7136\u83cc\u5e55",
+        "/items/life_drain": "\u751f\u547d\u5438\u53d6",
         "/items/fireball": "\u706b\u7403",
         "/items/flame_blast": "\u7194\u5ca9\u7206\u88c2",
         "/items/firestorm": "\u706b\u7130\u98ce\u66b4",
@@ -457,7 +464,7 @@
         "/items/gobo_stabber": "\u54e5\u5e03\u6797\u957f\u5251",
         "/items/gobo_slasher": "\u54e5\u5e03\u6797\u5173\u5200",
         "/items/gobo_smasher": "\u54e5\u5e03\u6797\u72fc\u7259\u68d2",
-        "/items/spiked_bulwark": "\u5c16\u523a\u76fe",
+        "/items/spiked_bulwark": "\u5c16\u523a\u91cd\u76fe",
         "/items/werewolf_slasher": "\u72fc\u4eba\u5173\u5200",
         "/items/griffin_bulwark": "\u72ee\u9e6b\u91cd\u76fe",
         "/items/gobo_shooter": "\u54e5\u5e03\u6797\u5f39\u5f13",
@@ -480,6 +487,7 @@
         "/items/arcane_bow": "\u795e\u79d8\u5f13",
         "/items/stalactite_spear": "\u77f3\u949f\u957f\u67aa",
         "/items/granite_bludgeon": "\u82b1\u5c97\u5ca9\u5927\u68d2",
+        "/items/furious_spear": "\u72c2\u6012\u957f\u67aa",
         "/items/regal_sword": "\u541b\u738b\u4e4b\u5251",
         "/items/chaotic_flail": "\u6df7\u6c8c\u8fde\u67b7",
         "/items/soul_hunter_crossbow": "\u7075\u9b42\u730e\u624b\u5f29",
@@ -487,6 +495,9 @@
         "/items/frost_staff": "\u51b0\u971c\u6cd5\u6756",
         "/items/infernal_battlestaff": "\u70bc\u72f1\u6cd5\u6756",
         "/items/jackalope_staff": "\u9e7f\u89d2\u5154\u4e4b\u6756",
+        "/items/rippling_trident": "\u6d9f\u6f2a\u4e09\u53c9\u621f",
+        "/items/blooming_trident": "\u7efd\u653e\u4e09\u53c9\u621f",
+        "/items/blazing_trident": "\u70bd\u7130\u4e09\u53c9\u621f",
         "/items/cheese_sword": "\u5976\u916a\u5251",
         "/items/verdant_sword": "\u7fe0\u7eff\u5251",
         "/items/azure_sword": "\u851a\u84dd\u5251",
@@ -529,7 +540,7 @@
         "/items/ginkgo_nature_staff": "\u94f6\u674f\u81ea\u7136\u6cd5\u6756",
         "/items/redwood_nature_staff": "\u7ea2\u6749\u81ea\u7136\u6cd5\u6756",
         "/items/arcane_nature_staff": "\u795e\u79d8\u81ea\u7136\u6cd5\u6756",
-        "/items/wooden_fire_staff": "\u6728\u706b\u6cd5\u6756",
+        "/items/wooden_fire_staff": "\u6728\u5236\u706b\u6cd5\u6756",
         "/items/birch_fire_staff": "\u6866\u6728\u706b\u6cd5\u6756",
         "/items/cedar_fire_staff": "\u96ea\u677e\u706b\u6cd5\u6756",
         "/items/purpleheart_fire_staff": "\u7d2b\u5fc3\u706b\u6cd5\u6756",
@@ -569,6 +580,7 @@
         "/items/snail_shell_helmet": "\u8717\u725b\u58f3\u5934\u76d4",
         "/items/vision_helmet": "\u89c6\u89c9\u5934\u76d4",
         "/items/fluffy_red_hat": "\u84ec\u677e\u7ea2\u5e3d\u5b50",
+        "/items/corsair_helmet": "\u63a0\u593a\u8005\u5934\u76d4",
         "/items/acrobatic_hood": "\u6742\u6280\u5e08\u515c\u5e3d",
         "/items/magicians_hat": "\u9b54\u672f\u5e08\u5e3d",
         "/items/cheese_helmet": "\u5976\u916a\u5934\u76d4",
@@ -602,9 +614,12 @@
         "/items/turtle_shell_body": "\u9f9f\u58f3\u80f8\u7532",
         "/items/colossus_plate_body": "\u5de8\u50cf\u80f8\u7532",
         "/items/demonic_plate_body": "\u6076\u9b54\u80f8\u7532",
+        "/items/anchorbound_plate_body": "\u951a\u5b9a\u80f8\u7532",
+        "/items/maelstrom_plate_body": "\u6012\u6d9b\u80f8\u7532",
         "/items/marine_tunic": "\u6d77\u6d0b\u76ae\u8863",
         "/items/revenant_tunic": "\u4ea1\u7075\u76ae\u8863",
         "/items/griffin_tunic": "\u72ee\u9e6b\u76ae\u8863",
+        "/items/kraken_tunic": "\u514b\u62c9\u80af\u76ae\u8863",
         "/items/icy_robe_top": "\u51b0\u971c\u888d\u670d",
         "/items/flaming_robe_top": "\u70c8\u7130\u888d\u670d",
         "/items/luna_robe_top": "\u6708\u795e\u888d\u670d",
@@ -641,9 +656,12 @@
         "/items/turtle_shell_legs": "\u9f9f\u58f3\u817f\u7532",
         "/items/colossus_plate_legs": "\u5de8\u50cf\u817f\u7532",
         "/items/demonic_plate_legs": "\u6076\u9b54\u817f\u7532",
+        "/items/anchorbound_plate_legs": "\u951a\u5b9a\u817f\u7532",
+        "/items/maelstrom_plate_legs": "\u6012\u6d9b\u817f\u7532",
         "/items/marine_chaps": "\u822a\u6d77\u76ae\u88e4",
         "/items/revenant_chaps": "\u4ea1\u7075\u76ae\u88e4",
         "/items/griffin_chaps": "\u72ee\u9e6b\u76ae\u88e4",
+        "/items/kraken_chaps": "\u514b\u62c9\u80af\u76ae\u88e4",
         "/items/icy_robe_bottoms": "\u51b0\u971c\u888d\u88d9",
         "/items/flaming_robe_bottoms": "\u70c8\u7130\u888d\u88d9",
         "/items/luna_robe_bottoms": "\u6708\u795e\u888d\u88d9",
@@ -673,6 +691,7 @@
         "/items/magnetic_gloves": "\u78c1\u529b\u624b\u5957",
         "/items/dodocamel_gauntlets": "\u6e21\u6e21\u9a7c\u62a4\u624b",
         "/items/sighted_bracers": "\u7784\u51c6\u62a4\u8155",
+        "/items/marksman_bracers": "\u795e\u5c04\u62a4\u8155",
         "/items/chrono_gloves": "\u65f6\u7a7a\u624b\u5957",
         "/items/cheese_gauntlets": "\u5976\u916a\u62a4\u624b",
         "/items/verdant_gauntlets": "\u7fe0\u7eff\u62a4\u624b",
@@ -881,9 +900,9 @@
         "/items/blueberry": "\u84dd\u8393",
         "/items/blackberry": "\u9ed1\u8393",
         "/items/strawberry": "\u8349\u8393",
-        "/items/mooberry": "\u54de\u6885",
-        "/items/marsberry": "\u706b\u661f\u6885",
-        "/items/spaceberry": "\u592a\u7a7a\u6885",
+        "/items/mooberry": "\u54de\u8393",
+        "/items/marsberry": "\u706b\u661f\u8393",
+        "/items/spaceberry": "\u592a\u7a7a\u8393",
         "/items/apple": "\u82f9\u679c",
         "/items/orange": "\u6a59\u5b50",
         "/items/plum": "\u674e\u5b50",
@@ -953,6 +972,12 @@
         "/items/bishops_scroll": "\u4e3b\u6559\u5377\u8f74",
         "/items/regal_jewel": "\u541b\u738b\u5b9d\u77f3",
         "/items/sundering_jewel": "\u88c2\u7a7a\u5b9d\u77f3",
+        "/items/marksman_brooch": "\u795e\u5c04\u80f8\u9488",
+        "/items/corsair_crest": "\u63a0\u593a\u8005\u5fbd\u7ae0",
+        "/items/damaged_anchor": "\u7834\u635f\u8239\u951a",
+        "/items/maelstrom_plating": "\u6012\u6d9b\u7532\u7247",
+        "/items/kraken_leather": "\u514b\u62c9\u80af\u76ae\u9769",
+        "/items/kraken_fang": "\u514b\u62c9\u80af\u4e4b\u7259",
         "/items/butter_of_proficiency": "\u7cbe\u901a\u4e4b\u6cb9",
         "/items/thread_of_expertise": "\u4e13\u7cbe\u4e4b\u7ebf",
         "/items/branch_of_insight": "\u6d1e\u5bdf\u4e4b\u679d",
@@ -981,6 +1006,7 @@
         "/items/chimerical_essence": "\u5947\u5e7b\u7cbe\u534e",
         "/items/sinister_essence": "\u9634\u68ee\u7cbe\u534e",
         "/items/enchanted_essence": "\u79d8\u6cd5\u7cbe\u534e",
+        "/items/pirate_essence": "\u6d77\u76d7\u7cbe\u534e",
         "/items/task_crystal": "\u4efb\u52a1\u6c34\u6676",
         "/items/star_fragment": "\u661f\u5149\u788e\u7247",
         "/items/pearl": "\u73cd\u73e0",
@@ -1030,16 +1056,16 @@
         "/actions/foraging/liberica_coffee_bean": "\u9ad8\u7ea7\u5496\u5561\u8c46",
         "/actions/foraging/bamboo_branch": "\u7af9\u5b50",
         "/actions/foraging/burble_beach": "\u6df1\u7d2b\u6c99\u6ee9",
-        "/actions/foraging/mooberry": "\u54de\u6885",
+        "/actions/foraging/mooberry": "\u54de\u8393",
         "/actions/foraging/peach": "\u6843\u5b50",
         "/actions/foraging/excelsa_coffee_bean": "\u7279\u7ea7\u5496\u5561\u8c46",
         "/actions/foraging/cocoon": "\u8695\u8327",
         "/actions/foraging/silly_cow_valley": "\u50bb\u725b\u5c71\u8c37",
-        "/actions/foraging/marsberry": "\u706b\u661f\u6885",
+        "/actions/foraging/marsberry": "\u706b\u661f\u8393",
         "/actions/foraging/dragon_fruit": "\u706b\u9f99\u679c",
         "/actions/foraging/fieriosa_coffee_bean": "\u706b\u5c71\u5496\u5561\u8c46",
         "/actions/foraging/olympus_mons": "\u5965\u6797\u5339\u65af\u5c71",
-        "/actions/foraging/spaceberry": "\u592a\u7a7a\u6885",
+        "/actions/foraging/spaceberry": "\u592a\u7a7a\u8393",
         "/actions/foraging/star_fruit": "\u6768\u6843",
         "/actions/foraging/spacia_coffee_bean": "\u592a\u7a7a\u5496\u5561\u8c46",
         "/actions/foraging/radiant_fiber": "\u5149\u8f89\u7ea4\u7ef4",
@@ -1230,10 +1256,16 @@
         "/actions/cheesesmithing/demonic_plate_legs": "\u6076\u9b54\u817f\u7532",
         "/actions/cheesesmithing/spiked_bulwark": "\u5c16\u523a\u91cd\u76fe",
         "/actions/cheesesmithing/dodocamel_gauntlets": "\u6e21\u6e21\u9a7c\u62a4\u624b",
+        "/actions/cheesesmithing/corsair_helmet": "\u63a0\u593a\u8005\u5934\u76d4",
         "/actions/cheesesmithing/knights_aegis": "\u9a91\u58eb\u76fe",
+        "/actions/cheesesmithing/anchorbound_plate_legs": "\u951a\u5b9a\u817f\u7532",
+        "/actions/cheesesmithing/maelstrom_plate_legs": "\u6012\u6d9b\u817f\u7532",
         "/actions/cheesesmithing/griffin_bulwark": "\u72ee\u9e6b\u91cd\u76fe",
+        "/actions/cheesesmithing/furious_spear": "\u72c2\u6012\u957f\u67aa",
         "/actions/cheesesmithing/chaotic_flail": "\u6df7\u6c8c\u8fde\u67b7",
         "/actions/cheesesmithing/regal_sword": "\u541b\u738b\u4e4b\u5251",
+        "/actions/cheesesmithing/anchorbound_plate_body": "\u951a\u5b9a\u80f8\u7532",
+        "/actions/cheesesmithing/maelstrom_plate_body": "\u6012\u6d9b\u80f8\u7532",
         "/actions/crafting/lumber": "\u6728\u677f",
         "/actions/crafting/wooden_crossbow": "\u6728\u5f29",
         "/actions/crafting/wooden_water_staff": "\u6728\u5236\u6c34\u6cd5\u6756",
@@ -1326,9 +1358,14 @@
         "/actions/crafting/arcane_bow": "\u795e\u79d8\u5f13",
         "/actions/crafting/enchanted_entry_key": "\u79d8\u6cd5\u94a5\u5319",
         "/actions/crafting/enchanted_chest_key": "\u79d8\u6cd5\u5b9d\u7bb1\u94a5\u5319",
+        "/actions/crafting/pirate_entry_key": "\u6d77\u76d7\u94a5\u5319",
+        "/actions/crafting/pirate_chest_key": "\u6d77\u76d7\u5b9d\u7bb1\u94a5\u5319",
         "/actions/crafting/arcane_fire_staff": "\u795e\u79d8\u706b\u6cd5\u6756",
         "/actions/crafting/vampiric_bow": "\u5438\u8840\u5f13",
         "/actions/crafting/soul_hunter_crossbow": "\u7075\u9b42\u730e\u624b\u5f29",
+        "/actions/crafting/rippling_trident": "\u6d9f\u6f2a\u4e09\u53c9\u621f",
+        "/actions/crafting/blooming_trident": "\u7efd\u653e\u4e09\u53c9\u621f",
+        "/actions/crafting/blazing_trident": "\u70bd\u7130\u4e09\u53c9\u621f",
         "/actions/crafting/frost_staff": "\u51b0\u971c\u6cd5\u6756",
         "/actions/crafting/infernal_battlestaff": "\u70bc\u72f1\u6cd5\u6756",
         "/actions/crafting/jackalope_staff": "\u9e7f\u89d2\u5154\u4e4b\u6756",
@@ -1446,26 +1483,17 @@
         "/actions/tailoring/griffin_tunic": "\u72ee\u9e6b\u76ae\u8863",
         "/actions/tailoring/gluttonous_pouch": "\u8d2a\u98df\u4e4b\u888b",
         "/actions/tailoring/guzzling_pouch": "\u66b4\u996e\u4e4b\u56ca",
+        "/actions/tailoring/marksman_bracers": "\u795e\u5c04\u62a4\u8155",
         "/actions/tailoring/acrobatic_hood": "\u6742\u6280\u5e08\u515c\u5e3d",
         "/actions/tailoring/magicians_hat": "\u9b54\u672f\u5e08\u4e4b\u5e3d",
+        "/actions/tailoring/kraken_chaps": "\u514b\u62c9\u80af\u76ae\u88e4",
         "/actions/tailoring/royal_water_robe_bottoms": "\u7687\u5bb6\u6c34\u7cfb\u888d\u88d9",
-        "/actions/tailoring/royal_water_robe_bottoms_from_nature": "\u7687\u5bb6\u6c34\u7cfb\u888d\u88d9 (\u4ece\u81ea\u7136\u7cfb\u88c1\u6539)",
-        "/actions/tailoring/royal_water_robe_bottoms_from_fire": "\u7687\u5bb6\u6c34\u7cfb\u888d\u88d9 (\u4ece\u706b\u7cfb\u88c1\u6539)",
         "/actions/tailoring/royal_nature_robe_bottoms": "\u7687\u5bb6\u81ea\u7136\u7cfb\u888d\u88d9",
-        "/actions/tailoring/royal_nature_robe_bottoms_from_water": "\u7687\u5bb6\u81ea\u7136\u7cfb\u888d\u88d9 (\u4ece\u6c34\u7cfb\u88c1\u6539)",
-        "/actions/tailoring/royal_nature_robe_bottoms_from_fire": "\u7687\u5bb6\u81ea\u7136\u7cfb\u888d\u88d9 (\u4ece\u706b\u7cfb\u88c1\u6539)",
         "/actions/tailoring/royal_fire_robe_bottoms": "\u7687\u5bb6\u706b\u7cfb\u888d\u88d9",
-        "/actions/tailoring/royal_fire_robe_bottoms_from_water": "\u7687\u5bb6\u706b\u7cfb\u888d\u88d9 (\u4ece\u6c34\u7cfb\u88c1\u6539)",
-        "/actions/tailoring/royal_fire_robe_bottoms_from_nature": "\u7687\u5bb6\u706b\u7cfb\u888d\u88d9 (\u4ece\u81ea\u7136\u7cfb\u88c1\u6539)",
+        "/actions/tailoring/kraken_tunic": "\u514b\u62c9\u80af\u76ae\u8863",
         "/actions/tailoring/royal_water_robe_top": "\u7687\u5bb6\u6c34\u7cfb\u888d\u670d",
-        "/actions/tailoring/royal_water_robe_top_from_nature": "\u7687\u5bb6\u6c34\u7cfb\u888d\u670d (\u4ece\u81ea\u7136\u7cfb\u88c1\u6539)",
-        "/actions/tailoring/royal_water_robe_top_from_fire": "\u7687\u5bb6\u6c34\u7cfb\u888d\u670d (\u4ece\u706b\u7cfb\u88c1\u6539)",
         "/actions/tailoring/royal_nature_robe_top": "\u7687\u5bb6\u81ea\u7136\u7cfb\u888d\u670d",
-        "/actions/tailoring/royal_nature_robe_top_from_water": "\u7687\u5bb6\u81ea\u7136\u7cfb\u888d\u670d (\u4ece\u81ea\u7136\u7cfb\u88c1\u6539)",
-        "/actions/tailoring/royal_nature_robe_top_from_fire": "\u7687\u5bb6\u81ea\u7136\u7cfb\u888d\u670d (\u4ece\u706b\u7cfb\u88c1\u6539)",
         "/actions/tailoring/royal_fire_robe_top": "\u7687\u5bb6\u706b\u7cfb\u888d\u670d",
-        "/actions/tailoring/royal_fire_robe_top_from_water": "\u7687\u5bb6\u706b\u7cfb\u888d\u670d (\u4ece\u6c34\u7cfb\u88c1\u6539)",
-        "/actions/tailoring/royal_fire_robe_top_from_nature": "\u7687\u5bb6\u706b\u7cfb\u888d\u670d (\u4ece\u81ea\u7136\u7cfb\u88c1\u6539)",
         "/actions/cooking/donut": "\u751c\u751c\u5708",
         "/actions/cooking/cupcake": "\u7eb8\u676f\u86cb\u7cd5",
         "/actions/cooking/gummy": "\u8f6f\u7cd6",
@@ -1558,9 +1586,9 @@
         "/actions/brewing/ultra_ranged_coffee": "\u7a76\u6781\u8fdc\u7a0b\u5496\u5561",
         "/actions/brewing/ultra_tailoring_tea": "\u7a76\u6781\u7f1d\u7eab\u8336",
         "/actions/brewing/ultra_magic_coffee": "\u7a76\u6781\u9b54\u6cd5\u5496\u5561",
+        "/actions/alchemy/coinify": "\u70b9\u91d1",
         "/actions/alchemy/transmute": "\u8f6c\u5316",
         "/actions/alchemy/decompose": "\u5206\u89e3",
-        "/actions/alchemy/coinify": "\u70b9\u91d1",
         "/actions/enhancing/enhance": "\u5f3a\u5316",
         "/actions/combat/fly": "\u82cd\u8747",
         "/actions/combat/rat": "\u6770\u745e",
@@ -1631,15 +1659,19 @@
         "/actions/combat/chimerical_den": "\u5947\u5e7b\u6d1e\u7a74",
         "/actions/combat/sinister_circus": "\u9634\u68ee\u9a6c\u620f\u56e2",
         "/actions/combat/enchanted_fortress": "\u79d8\u6cd5\u8981\u585e",
+        "/actions/combat/pirate_cove": "\u6d77\u76d7\u57fa\u5730",
     };
 
     const ZHOthersDic = {
         // monsterNames
         "/monsters/abyssal_imp": "\u6df1\u6e0a\u5c0f\u9b3c",
         "/monsters/acrobat": "\u6742\u6280\u5e08",
+        "/monsters/anchor_shark": "\u6301\u951a\u9ca8",
         "/monsters/aquahorse": "\u6c34\u9a6c",
         "/monsters/black_bear": "\u9ed1\u718a",
         "/monsters/gobo_boomy": "\u8f70\u8f70",
+        "/monsters/brine_marksman": "\u6d77\u76d0\u5c04\u624b",
+        "/monsters/captain_fishhook": "\u9c7c\u94a9\u8239\u957f",
         "/monsters/butterjerry": "\u8776\u9f20",
         "/monsters/centaur_archer": "\u534a\u4eba\u9a6c\u5f13\u7bad\u624b",
         "/monsters/chronofrost_sorcerer": "\u971c\u65f6\u5deb\u5e08",
@@ -1649,11 +1681,11 @@
         "/monsters/dodocamel": "\u6e21\u6e21\u9a7c",
         "/monsters/dusk_revenant": "\u9ec4\u660f\u4ea1\u7075",
         "/monsters/elementalist": "\u5143\u7d20\u6cd5\u5e08",
-        "/monsters/enchanted_bishop": "\u79d8\u6cd5\u4e4b\u76f8",
-        "/monsters/enchanted_king": "\u79d8\u6cd5\u4e4b\u738b",
+        "/monsters/enchanted_bishop": "\u79d8\u6cd5\u4e3b\u6559",
+        "/monsters/enchanted_king": "\u79d8\u6cd5\u56fd\u738b",
         "/monsters/enchanted_knight": "\u79d8\u6cd5\u9a91\u58eb",
-        "/monsters/enchanted_pawn": "\u79d8\u6cd5\u4e4b\u5175",
-        "/monsters/enchanted_queen": "\u79d8\u6cd5\u4e4b\u540e",
+        "/monsters/enchanted_pawn": "\u79d8\u6cd5\u58eb\u5175",
+        "/monsters/enchanted_queen": "\u79d8\u6cd5\u738b\u540e",
         "/monsters/enchanted_rook": "\u79d8\u6cd5\u5821\u5792",
         "/monsters/eye": "\u72ec\u773c",
         "/monsters/eyes": "\u53e0\u773c",
@@ -1694,11 +1726,14 @@
         "/monsters/slimy": "\u53f2\u83b1\u59c6",
         "/monsters/gobo_smashy": "\u9524\u9524",
         "/monsters/soul_hunter": "\u7075\u9b42\u730e\u624b",
+        "/monsters/squawker": "\u9e66\u9e49",
         "/monsters/gobo_stabby": "\u523a\u523a",
         "/monsters/stalactite_golem": "\u949f\u4e73\u77f3\u9b54\u50cf",
         "/monsters/swampy": "\u6cbc\u6cfd\u866b",
+        "/monsters/the_kraken": "\u514b\u62c9\u80af",
         "/monsters/the_watcher": "\u89c2\u5bdf\u8005",
         "/monsters/snake": "\u86c7",
+        "/monsters/tidal_conjuror": "\u6f6e\u6c50\u53ec\u5524\u5e08",
         "/monsters/treant": "\u6811\u4eba",
         "/monsters/turtle": "\u5fcd\u8005\u9f9f",
         "/monsters/vampire": "\u5438\u8840\u9b3c",
@@ -1719,6 +1754,8 @@
         "/abilities/smack": "\u91cd\u78be",
         "/abilities/sweep": "\u91cd\u626b",
         "/abilities/stunning_blow": "\u91cd\u9524",
+        "/abilities/fracturing_impact": "\u788e\u88c2\u51b2\u51fb",
+        "/abilities/shield_bash": "\u76fe\u51fb",
         "/abilities/quick_shot": "\u5feb\u901f\u5c04\u51fb",
         "/abilities/aqua_arrow": "\u6d41\u6c34\u7bad",
         "/abilities/flame_arrow": "\u70c8\u7130\u7bad",
@@ -1734,6 +1771,7 @@
         "/abilities/entangle": "\u7f20\u7ed5",
         "/abilities/toxic_pollen": "\u5267\u6bd2\u7c89\u5c18",
         "/abilities/natures_veil": "\u81ea\u7136\u83cc\u5e55",
+        "/abilities/life_drain": "\u751f\u547d\u5438\u53d6",
         "/abilities/fireball": "\u706b\u7403",
         "/abilities/flame_blast": "\u7194\u5ca9\u7206\u88c2",
         "/abilities/firestorm": "\u706b\u7130\u98ce\u66b4",
@@ -2500,6 +2538,7 @@
 
                     // 价格角标
                     if (!itemElem.querySelector("#script_stack_price")) {
+                        itemElem.style.position = "relative";
                         const priceElemHTML = `<div
                             id="script_stack_price"
                             style="z-index: 1; position: absolute; top: 2px; left: 2px; text-align: left;">
@@ -3978,6 +4017,7 @@
 
             if (initData_itemDetailMap[itemHrid]?.equipmentDetail && itemLevel && itemLevel > 0) {
                 if (!div.querySelector("div.script_itemLevel")) {
+                    div.style.position = "relative";
                     div.insertAdjacentHTML(
                         "beforeend",
                         `<div class="script_itemLevel" style="z-index: 1; position: absolute; top: 2px; right: 2px; text-align: right; color: ${SCRIPT_COLOR_MAIN};">${itemLevel}</div>`
@@ -3991,6 +4031,7 @@
                 }
             } else if (itemAbilityLevel && itemAbilityLevel > 0) {
                 if (!div.querySelector("div.script_itemLevel")) {
+                    div.style.position = "relative";
                     div.insertAdjacentHTML(
                         "beforeend",
                         `<div class="script_itemLevel" style="z-index: 1; position: absolute; top: 2px; right: 2px; text-align: right; color: ${SCRIPT_COLOR_MAIN};">${itemAbilityLevel}</div>`
@@ -4011,12 +4052,15 @@
                 map.set("/items/chimerical_entry_key", isZH ? "牢1" : "D1");
                 map.set("/items/sinister_entry_key", isZH ? "牢2" : "D2");
                 map.set("/items/enchanted_entry_key", isZH ? "牢3" : "D3");
+                map.set("/items/pirate_entry_key", isZH ? "牢4" : "D4");
 
                 map.set("/items/chimerical_chest_key", "3.4.5.8");
                 map.set("/items/sinister_chest_key", "5.7.8.10");
                 map.set("/items/enchanted_chest_key", "6.7.9.11");
+                map.set("/items/pirate_chest_key", "6.9.10.11");
 
                 if (!div.querySelector("div.script_key")) {
+                    div.style.position = "relative";
                     div.insertAdjacentHTML(
                         "beforeend",
                         `<div class="script_key" style="z-index: 1; position: absolute; top: 2px; right: 2px; text-align: right; color: ${SCRIPT_COLOR_MAIN};">${map.get(
