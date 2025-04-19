@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MWITools with Realtime Market
 // @namespace    http://tampermonkey.net/
-// @version      22.1
+// @version      22.3
 // @description  Tools for MilkyWayIdle. Shows total action time. Shows market prices. Shows action number quick inputs. Shows how many actions are needed to reach certain skill level. Shows skill exp percentages. Shows total networth. Shows combat summary. Shows combat maps index. Shows item level on item icons. Shows how many ability books are needed to reach certain level. Shows market equipment filters.
 // @author       bot7420
 // @license      CC-BY-NC-SA-4.0
@@ -18,6 +18,7 @@
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @connect      raw.githubusercontent.com
+// @connect      ghproxy.net
 // @require      https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.2/math.js
 // @require      https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js
 // @require      https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0/dist/chartjs-plugin-datalabels.min.js
@@ -64,6 +65,7 @@
     const SCRIPT_COLOR_ALERT = "red"; // 警告字体颜色
 
     const MARKET_API_URL = "https://raw.githubusercontent.com/holychikenz/MWIApi/main/medianmarket.json";
+    const MARKET_API_URL_PROXY = "https://ghproxy.net/https://raw.githubusercontent.com/holychikenz/MWIApi/main/medianmarket.json"; // For players with difficulties to accesss Github
 
     let settingsMap = {
         useOrangeAsMainColor: {
@@ -252,6 +254,11 @@
             id: "forceMWIToolsDisplayZH",
             desc: isZH ? "MWITools本身强制显示中文 MWITools always in Chinese" : "MWITools本身强制显示中文 MWITools always in Chinese",
             isTrue: false,
+        },
+        useGithubProxy: {
+            id: "useGithubProxy",
+            desc: isZH ? "使用代理访问Github（网络有问题时请尝试打开或关闭此选项）" : "Accesss Github with proxy",
+            isTrue: isZH,
         },
     };
     readSettings();
@@ -3320,6 +3327,21 @@
         }
 
         insertAfterElem.insertAdjacentHTML("afterend", appendHTMLStr);
+
+        // Make sure the tooltip is fully visible in the viewport
+        const tootip = insertAfterElem.closest(".MuiTooltip-popper");
+        const fixOverflow = (tootip) => {
+            if (!tootip.isConnected) {
+                return;
+            }
+            const bBox = tootip.getBoundingClientRect();
+            if (bBox.top < 0 || bBox.bottom > window.innerHeight) {
+                const transformString = tootip.style.transform.split(/\w+\(|\);?/);
+                const transformValues = transformString[1].split(/,\s?/g).map((numStr) => parseInt(numStr));
+                tootip.style.transform = `translate3d(${transformValues[0]}px, 0px, ${transformValues[2]}px)`;
+            }
+        };
+        setTimeout(fixOverflow, 100, tootip); // A delay is added because the game seems to reset the style if applied immediately.
     }
 
     async function fetchMarketJSON(forceFetch = false) {
@@ -3367,8 +3389,11 @@
         // Start fetch
         console.log("fetchMarketJSON fetch github start");
         reasonForUsingExpiredMarketJson += new Date().toUTCString() + " fetch start \n";
+        console.log("use proxy: " + settingsMap.useGithubProxy.isTrue);
+        reasonForUsingExpiredMarketJson +=
+            new Date().toUTCString() + "use proxy: " + settingsMap.useGithubProxy.isTrue + "请尝试在设置中打开或关闭Github代理\n";
         const response = await sendRequest({
-            url: MARKET_API_URL,
+            url: settingsMap.useGithubProxy.isTrue ? MARKET_API_URL_PROXY : MARKET_API_URL,
             method: "GET",
             synchronous: true,
             timeout: 5000,
