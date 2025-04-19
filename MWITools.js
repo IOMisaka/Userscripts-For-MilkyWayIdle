@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MWITools with Realtime Market
 // @namespace    http://tampermonkey.net/
-// @version      22.3
+// @version      22.4
 // @description  Tools for MilkyWayIdle. Shows total action time. Shows market prices. Shows action number quick inputs. Shows how many actions are needed to reach certain skill level. Shows skill exp percentages. Shows total networth. Shows combat summary. Shows combat maps index. Shows item level on item icons. Shows how many ability books are needed to reach certain level. Shows market equipment filters.
 // @author       bot7420
 // @license      CC-BY-NC-SA-4.0
@@ -4079,9 +4079,9 @@
                 map.set("/items/enchanted_entry_key", isZH ? "牢3" : "D3");
                 map.set("/items/pirate_entry_key", isZH ? "牢4" : "D4");
 
-                map.set("/items/chimerical_chest_key", "3.4.5.8");
+                map.set("/items/chimerical_chest_key", "3.4.5.6");
                 map.set("/items/sinister_chest_key", "5.7.8.10");
-                map.set("/items/enchanted_chest_key", "6.7.9.11");
+                map.set("/items/enchanted_chest_key", "7.8.9.11");
                 map.set("/items/pirate_chest_key", "6.9.10.11");
 
                 if (!div.querySelector("div.script_key")) {
