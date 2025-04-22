@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MWITools with Realtime Market
 // @namespace    http://tampermonkey.net/
-// @version      22.4
+// @version      22.5
 // @description  Tools for MilkyWayIdle. Shows total action time. Shows market prices. Shows action number quick inputs. Shows how many actions are needed to reach certain skill level. Shows skill exp percentages. Shows total networth. Shows combat summary. Shows combat maps index. Shows item level on item icons. Shows how many ability books are needed to reach certain level. Shows market equipment filters.
 // @author       bot7420
 // @license      CC-BY-NC-SA-4.0
@@ -3584,6 +3584,7 @@
             for (const value of presetHours) {
                 const btn = document.createElement("button");
                 btn.style.backgroundColor = "white";
+                btn.style.color = "black";
                 btn.style.padding = "1px 6px 1px 6px";
                 btn.style.margin = "1px";
                 btn.innerText = value === 0.5 ? 0.5 : numberFormatter(value);
@@ -3600,6 +3601,7 @@
             for (const value of presetTimes) {
                 const btn = document.createElement("button");
                 btn.style.backgroundColor = "white";
+                btn.style.color = "black";
                 btn.style.padding = "1px 6px 1px 6px";
                 btn.style.margin = "1px";
                 btn.innerText = numberFormatter(value);
