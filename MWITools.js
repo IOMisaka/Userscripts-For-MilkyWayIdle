@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MWITools with Realtime Market
 // @namespace    http://tampermonkey.net/
-// @version      22.5
+// @version      22.7
 // @description  Tools for MilkyWayIdle. Shows total action time. Shows market prices. Shows action number quick inputs. Shows how many actions are needed to reach certain skill level. Shows skill exp percentages. Shows total networth. Shows combat summary. Shows combat maps index. Shows item level on item icons. Shows how many ability books are needed to reach certain level. Shows market equipment filters.
 // @author       bot7420
 // @license      CC-BY-NC-SA-4.0
@@ -1991,6 +1991,7 @@
                     players = [];
                     monsters = [];
                     monstersHP = [];
+                    playersMP = [];
                     startTime = null;
                     endTime = null;
                     totalDuration = 0;
@@ -2036,6 +2037,7 @@
                 startTime = Date.now();
                 endTime = null;
                 monstersHP = obj.monsters.map((monster) => monster.currentHitpoints);
+                playersMP = obj.players.map((player) => player.currentManapoints);
                 if (!players || players.length === 0) {
                     players = obj.players;
                 }
@@ -2105,66 +2107,19 @@
                 showBuildScoreOnProfile(obj);
             }
         } else if (obj && obj.type === "battle_updated" && monstersHP.length) {
-            /* Logging start */
-            //     console.log("------");
-            //     const mMap = obj.mMap;
-            //     if (Object.keys(mMap).length === 0) {
-            //         const playerIndices = Object.keys(obj.pMap);
-            //         if (playerIndices.length === 0) {
-            //             console.log(`【错误：无变化】`);
-            //         }
-            //         playerIndices.forEach((userIndex) => {
-            //             const statusTxt = `${obj.pMap.isStunned ? "【眩晕】" : ""}${
-            //                 obj.pMap[userIndex].abilityHrid ? "【" + obj.pMap[userIndex].abilityHrid.replace("/abilities/", "") + "】" : ""
-            //             }${obj.pMap[userIndex].isAutoAtk ? "【普攻】" : ""}`;
-            //             console.log(
-            //                 `【玩家自行变化】${statusTxt} ${players[userIndex].name} 上个动作【${players[userIndex].currentAction.replace(
-            //                     "/abilities/",
-            //                     ""
-            //                 )}】`
-            //             );
-            //         });
-            //     }
-            //     monstersHP.forEach((mHP, mIndex) => {
-            //         const monster = mMap[mIndex];
-            //         if (monster) {
-            //             const playerIndices = Object.keys(obj.pMap);
-            //             if (playerIndices.length === 0) {
-            //                 const hpDiff = mHP - monster.cHP;
-            //                 console.log(`【怪物自行变化】${monsters[mIndex].name} 自行变化 ${hpDiff} 点血量`);
-            //             }
-            //             playerIndices.forEach((userIndex) => {
-            //                 const hpDiff = mHP - monster.cHP;
-            //                 const statusTxt = `${obj.pMap.isStunned ? "【眩晕】" : ""}${
-            //                     obj.pMap[userIndex].abilityHrid ? "【" + obj.pMap[userIndex].abilityHrid.replace("/abilities/", "") + "】" : ""
-            //                 }${obj.pMap[userIndex].isAutoAtk ? "【普攻】" : ""}`;
-            //                 if (hpDiff > 0) {
-            //                     console.log(
-            //                         `【伤害】${statusTxt} ${players[userIndex].name} 对 ${
-            //                             monsters[mIndex].name
-            //                         } 造成了 ${hpDiff} 点伤害 上个动作【${players[userIndex].currentAction.replace("/abilities/", "")}】`
-            //                     );
-            //                 } else if (hpDiff === 0) {
-            //                     console.log(
-            //                         `【Miss】${statusTxt} ${players[userIndex].name} 对 ${monsters[mIndex].name} MISS (造成0点伤害) 上个动作【${players[
-            //                             userIndex
-            //                         ].currentAction.replace("/abilities/", "")}】`
-            //                     );
-            //                 } else {
-            //                     console.log(
-            //                         `【治疗】${statusTxt} ${players[userIndex].name} 对 ${
-            //                             monsters[mIndex].name
-            //                         } 造成了 ${-hpDiff} 点治疗 上个动作【${players[userIndex].currentAction.replace("/abilities/", "")}】`
-            //                     );
-            //                 }
-            //             });
-            //         }
-            //     });
-            /* Logging end */
             if (settingsMap.showDamage.isTrue) {
                 const mMap = obj.mMap;
                 const pMap = obj.pMap;
                 const playerIndices = Object.keys(obj.pMap);
+
+                // Decide which player cast a spell by MP decrease.
+                let castPlayer = -1;
+                playerIndices.forEach((userIndex) => {
+                    if (pMap[userIndex].cMP < playersMP[userIndex]) {
+                        castPlayer = userIndex;
+                    }
+                    playersMP[userIndex] = pMap[userIndex].cMP;
+                });
 
                 monstersHP.forEach((mHP, mIndex) => {
                     const monster = mMap[mIndex];
@@ -2173,15 +2128,9 @@
                         monstersHP[mIndex] = monster.cHP;
                         if (hpDiff > 0) {
                             if (playerIndices.length > 1) {
-                                // Damage is resulted by ManaSpring from one of the players.
+                                // Damage is resulted by ManaSpring or Bloom from one of the players.
                                 playerIndices.forEach((userIndex) => {
-                                    const action = pMap[userIndex].abilityHrid
-                                        ? pMap[userIndex].abilityHrid
-                                        : pMap[userIndex].isAutoAtk
-                                            ? "auto"
-                                            : null;
-                                    // console.log(`${players[userIndex].name} ${players[userIndex].currentAction} -> ${action}`);
-                                    if (players[userIndex].currentAction !== action && players[userIndex].currentAction?.includes("mana_spring")) {
+                                    if (userIndex === castPlayer) {
                                         if (!players[userIndex].damageMap) {
                                             players[userIndex].damageMap = new Map();
                                         }
@@ -2192,8 +2141,6 @@
                                                 : hpDiff
                                         );
                                         totalDamage[userIndex] += hpDiff;
-                                        // console.log("mana_spring by " + players[userIndex].name);
-                                        // console.log(players[userIndex].damageMap);
                                     }
                                 });
                             } else {
@@ -2207,7 +2154,6 @@
                                         : hpDiff
                                 );
                                 totalDamage[playerIndices[0]] += hpDiff;
-                                // console.log(players[playerIndices[0]].damageMap);
                             }
                         }
                     }
@@ -3539,8 +3485,9 @@
                 .replaceAll(DECIMAL_SEPERATOR, ".")
         );
 
+        const elems = panel.querySelectorAll("div.SkillActionDetail_value__dQjYH");
         const duration = Number(
-            getOriTextFromElement(panel.querySelectorAll("div.SkillActionDetail_value__dQjYH")[5])
+            getOriTextFromElement(elems[elems.length - 2])
                 .replaceAll(THOUSAND_SEPERATOR, "")
                 .replaceAll(DECIMAL_SEPERATOR, ".")
                 .replace("s", "")
@@ -5164,6 +5111,7 @@
     let startTime = null;
     let endTime = null;
     let monstersHP = [];
+    let playersMP = [];
     let players = [];
     let monsters = [];
     let dragging = false;
