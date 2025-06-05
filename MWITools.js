@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MWITools with Realtime Market
 // @namespace    http://tampermonkey.net/
-// @version      22.9
+// @version      23.0
 // @description  Tools for MilkyWayIdle. Shows total action time. Shows market prices. Shows action number quick inputs. Shows how many actions are needed to reach certain skill level. Shows skill exp percentages. Shows total networth. Shows combat summary. Shows combat maps index. Shows item level on item icons. Shows how many ability books are needed to reach certain level. Shows market equipment filters.
 // @author       bot7420
 // @license      CC-BY-NC-SA-4.0
@@ -5950,7 +5950,7 @@
                     playerObj.food["/action_types/combat"].push({
                         itemHrid: "/items/star_fruit_yogurt",
                     });
-                } else if (weapon.includes("boomstick") || weapon.includes("staff")) {
+                } else if (weapon.includes("boomstick") || weapon.includes("staff") || weapon.includes("trident")) {
                     // 法师
                     // xp,超魔,吟唱
                     playerObj.drinks["/action_types/combat"].push({
