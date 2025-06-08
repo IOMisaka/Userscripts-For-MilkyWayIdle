@@ -3047,7 +3047,7 @@
             appendHTMLStr += `
         <div style="color: ${SCRIPT_COLOR_TOOLTIP};">${isZH ? "最新价: " : "Latest price: "}${numberFormatter(ask)} / ${numberFormatter(
                 bid
-            )} (${ask && ask > 0 ? numberFormatter(ask * amount) : ""} / ${bid && bid > 0 ? numberFormatter(bid * amount) : ""})<br/>[${priceObj?new Date(priceObj.time * 1000).toLocaleString():"Not Updated"}]</div>
+            )} (${ask && ask > 0 ? numberFormatter(ask * amount) : ""} / ${bid && bid > 0 ? numberFormatter(bid * amount) : ""})<br/>[${priceObj ? new Date(priceObj.time * 1000).toLocaleString() : "Not Updated"}]</div>
         `;
         }
 
@@ -3280,7 +3280,7 @@
     async function fetchMarketJSON(forceFetch = false) {
         // console.log(GM_xmlhttpRequest); // Tampermonkey
         // console.log(GM.xmlHttpRequest); // Tampermonkey promise based, Greasemonkey 4.0+
-        if (mwi?.marketJson) return mwi.marketJson;
+        if (window.mwi?.marketJson) return mwi.marketJson;
 
         // Broswer does not support fetch
         const sendRequest =
@@ -4570,7 +4570,7 @@
             console.error(`handleItemTooltipWithEnhancementLevel invalid itemHrid ${itemName} ${itemHrid}`);
             return;
         }
-        if (mwi?.coreMarket) {
+        if (window.mwi?.coreMarket) {
             let amount = 0;
             let insertAfterElem = null;
             const amountSpan = tooltip.querySelectorAll("span")[2];
@@ -4588,14 +4588,16 @@
             let updateTime = null;
             // 物品市场价格
             if (settingsMap.itemTooltip_prices.isTrue) {
-                let priceObj = mwi.coreMarket.getItemPrice(itemHrid, enhancementLevel);
-                ask = priceObj?.ask;
-                bid = priceObj?.bid;
-                appendHTMLStr += `
+                let priceObj = window.mwi?.coreMarket?.getItemPrice(itemHrid, enhancementLevel);
+                if (priceObj) {
+                    ask = priceObj?.ask;
+                    bid = priceObj?.bid;
+                    appendHTMLStr += `
         <div style="color: ${SCRIPT_COLOR_TOOLTIP};">${isZH ? "最新价: " : "Latest Price: "}${numberFormatter(ask)} / ${numberFormatter(
-                    bid
-                )} (${ask && ask > 0 ? numberFormatter(ask * amount) : ""} / ${bid && bid > 0 ? numberFormatter(bid * amount) : ""})<br/>[${priceObj? new Date(priceObj.time * 1000).toLocaleString():"Not Updated"}]</div>`;
-                insertAfterElem.insertAdjacentHTML("afterend", appendHTMLStr);
+                        bid
+                    )} (${ask && ask > 0 ? numberFormatter(ask * amount) : ""} / ${bid && bid > 0 ? numberFormatter(bid * amount) : ""})<br/>[${priceObj ? new Date(priceObj.time * 1000).toLocaleString() : "Not Updated"}]</div>`;
+                    insertAfterElem.insertAdjacentHTML("afterend", appendHTMLStr);
+                }
             }
 
         }

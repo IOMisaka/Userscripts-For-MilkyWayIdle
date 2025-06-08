@@ -383,12 +383,24 @@
 		marketData[itemHrid] = detail;
 		GM_setValue("market_data", marketData);
 	}
-
+	/*
+	* "/action_types/milking"
+	*/
+	function getEquipEffecieny(actionType) {
+		if(!mwi?.game){
+			return;
+		}
+		let gearEfficiency = 0.129; // Default efficiency for all actions
+		if (init_character_data.characterHouseRoomMap["/house_rooms/observatory"]) {
+			gearEfficiency += getEnhancementBuffBonus(init_character_data.characterHouseRoomMap["/house_rooms/observatory"].enhancementLevel);
+		}
+		return gearEfficiency * (1 + teaCatalytic); // Apply teaCatalytic bonus to the overall efficiency
+	}
 	function calculateActionProfit(actionList) {
 		const gearEfficiencies = {
-			milking: 0.129, foraging: 0.129, woodcutting: 0.129,
-			cheesesmithing: 0.129, crafting: 0.129, tailoring: 0.129,
-			cooking: 0.129, brewing: 0.129, alchemy: 0.129
+			milking: 0.112, foraging: 0.112, woodcutting: 0.112,
+			cheesesmithing: 0.112, crafting: 0.112, tailoring: 0.112,
+			cooking: 0.112, brewing: 0.112, alchemy: 0.12126
 		};
 
 		let itemSource = {};
