@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MWITools with Realtime Market
 // @namespace    http://tampermonkey.net/
-// @version      23.3
+// @version      23.5
 // @description  Tools for MilkyWayIdle. Shows total action time. Shows market prices. Shows action number quick inputs. Shows how many actions are needed to reach certain skill level. Shows skill exp percentages. Shows total networth. Shows combat summary. Shows combat maps index. Shows item level on item icons. Shows how many ability books are needed to reach certain level. Shows market equipment filters.
 // @author       bot7420
 // @license      CC-BY-NC-SA-4.0
@@ -4634,11 +4634,14 @@
             for (const [key, value] of Object.entries(best.costs.needMap)) {
                 needMatStr += `<div>${key} ${isZH ? "单价: " : "price per item: "}${numberFormatter(value)}<div>`;
             }
-            appendHTMLStr = `<div style="color: ${SCRIPT_COLOR_TOOLTIP};"><div>${isZH
-                ? "强化模拟（默认100级强化，4级房子，10级工具，5级手套，究极茶，幸运茶，卖单价收货，无工时费）："
-                : "Enhancement simulator: Default level 100 enhancing, level 4 house, level 10 tool, level 5 gloves, ultra tea, blessed tea, sell order price in, no player time fee"
-                }</div><div>${isZH ? "总成本 " : "Total cost "}${numberFormatter(best.totalCost.toFixed(0))}</div><div>${isZH ? "耗时 " : "Time spend "}${best.simResult.totalActionTimeStr
-                }</div>${best.protect_count > 0
+            appendHTMLStr = `<div style="color: ${SCRIPT_COLOR_TOOLTIP};"><div>${
+                isZH
+                    ? "强化模拟（默认125级强化，6级房子，10级星空工具，5级手套，究极茶，幸运茶，卖单价收货，无工时费）："
+                    : "Enhancement simulator: Default level 12 enhancing, level 6 house, level 10 celestial tool, level 5 gloves, ultra tea, blessed tea, sell order price in, no player time fee"
+            }</div><div>${isZH ? "总成本 " : "Total cost "}${numberFormatter(best.totalCost.toFixed(0))}</div><div>${isZH ? "耗时 " : "Time spend "}${
+                best.simResult.totalActionTimeStr
+            }</div>${
+                best.protect_count > 0
                     ? `<div>${isZH ? "从 " : "Use protection from level "}` + best.protect_at + `${isZH ? " 级开始保护" : ""}</div>`
                     : `<div>${isZH ? "不需要保护" : "No protection use"}</div>`
                 }<div>${isZH ? "保护 " : "Protection "}${best.protect_count.toFixed(1)}${isZH ? " 次" : " times"}</div><div>${isZH ? "+0底子: " : "+0 Base item: "
@@ -4772,9 +4775,9 @@
         item_hrid: null,
         stop_at: null,
 
-        enhancing_level: 100, // 人物 Enhancing 技能等级
-        laboratory_level: 4, // 房子等级
-        enhancer_bonus: 4.64, // 工具提高成功率，0级=3.6，5级=4.03，10级=4.64
+        enhancing_level: 125, // 人物 Enhancing 技能等级
+        laboratory_level: 6, // 房子等级
+        enhancer_bonus: 5.42, // 工具提高成功率，10级星空强化工具
         glove_bonus: 11.2, // 手套提高强化速度，0级=10，5级=11.2，10级=12.9
 
         tea_enhancing: false, // 强化茶
